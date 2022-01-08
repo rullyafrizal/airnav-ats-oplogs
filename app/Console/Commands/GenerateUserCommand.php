@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use Auth;
 use Illuminate\Console\Command;
 
 class GenerateUserCommand extends Command
@@ -12,7 +13,7 @@ class GenerateUserCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'user:create {name} {email} {password}';
+    protected $signature = 'user:create';
 
     /**
      * The console command description.
@@ -38,11 +39,21 @@ class GenerateUserCommand extends Command
      */
     public function handle()
     {
+        $this->info('You have to login first');
+        $em = $this->ask('Email ');
+        $pass = $this->secret('Password ');
+
+        if (!Auth::attempt(['email' => $em, 'password' => $pass])) {
+            $this->error('Invalid credentials.');
+
+            return 1;
+        }
+
         $this->info('Generating new user...');
 
-        $name = $this->argument('name');
-        $email = $this->argument('email');
-        $password = $this->argument('password');
+        $name = $this->ask('Name ');
+        $email = $this->ask('Email ');
+        $password = $this->secret('Password ');
 
         User::query()
             ->create([
