@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Builder;
 use Jenssegers\Mongodb\Eloquent\Model;
@@ -37,5 +38,37 @@ class OperationalLog extends Model
             ->when($filters['shift'] ?? null, function (Builder $query, $shift) {
                 return $query->where('shift', $shift);
             });
+    }
+
+    public function scopeCountPerMonth(Builder $query, $year): array {
+        $data = [];
+
+        for ($i = 1; $i <= 12; $i++) {
+            $start_date = Carbon::createFromDate($year, "$i")->startOfMonth();
+            $end_date = Carbon::createFromDate($year, "$i")->endOfMonth();
+            $data[] = $query->where('date', '>=', $start_date->toDateString())
+                ->where('date', '<=', $end_date->toDateString())
+                ->count();
+        }
+
+        return $data;
+    }
+
+    public static function year() {
+        $yearsRaw = [];
+        $yearsRaw[] = self::query()
+            ->select(['date'])
+            ->get()
+            ->groupBy(function ($oplog) {
+                return Carbon::parse($oplog->date)->format('Y');
+            });
+
+        $years = [];
+
+        foreach ($yearsRaw[0] as $key => $value) {
+            $years[] = $key;
+        }
+
+        return $years;
     }
 }

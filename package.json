@@ -17,6 +17,7 @@
     "@inertiajs/progress": "^0.2.6",
     "@popperjs/core": "^2.10.2",
     "@tailwindcss/forms": "^0.3.4",
+    "chart.js": "^3.7.0",
     "fit-textarea": "^2.0.0",
     "laravel-mix": "^6.0.6",
     "lodash": "^4.17.21",

@@ -234,7 +234,7 @@
             </TR>
             <TR>
                 <TD class="tr3 td31"><P class="p2 ft1">&nbsp;</P></TD>
-                <TD colspan=3 class="tr3 td32"><P class="p6 ft5">Personal On Duty</P></TD>
+                <TD colspan=3 class="tr3 td32"><P class="p6 ft5">Personel On Duty</P></TD>
                 <TD class="tr3 td0"><P class="p2 ft1">&nbsp;</P></TD>
                 <TD class="tr3 td0"><P class="p2 ft1">&nbsp;</P></TD>
                 <TD class="tr3 td0"><P class="p2 ft1">&nbsp;</P></TD>

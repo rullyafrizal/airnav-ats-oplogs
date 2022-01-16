@@ -154,7 +154,7 @@
       />
     </div>
 
-    <div class="font-bold pl-8 mt-5">Personal on Duty</div>
+    <div class="font-bold pl-8 mt-5">Personel on Duty</div>
     <div class="px-8 pb-8 pt-4 -mr-6 -mb-8 flex flex-wrap">
       <TimeInput
         bind:value={$form.time}
