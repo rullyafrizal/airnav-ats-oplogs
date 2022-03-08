@@ -64,10 +64,6 @@ class OperationalLogController extends Controller
     {
         $update = $this->oplogService->update($operationalLog, $request->validated());
 
-        if(!$update['status'] == 'success') {
-            dd($update);
-        }
-
         return redirect()
             ->route('operational-logs.index')
             ->with($update['status'], $update['message']);

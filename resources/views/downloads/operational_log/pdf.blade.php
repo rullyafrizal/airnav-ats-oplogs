@@ -383,11 +383,21 @@
                     @foreach($operationalLog->data->controller_initials->data as $initial)
                         <P>&nbsp;{{ $loop->iteration }}.</P>
                     @endforeach
+                    @if(count($operationalLog->data->controller_initials->data) < 3)
+                        @for($i = count($operationalLog->data->controller_initials->data); $i < 3; $i++)
+                            <P>&nbsp;</P>
+                        @endfor
+                    @endif
                 </TD>
                 <TD class="tr11 td56">
                     @foreach($operationalLog->data->controller_initials->data as $initial)
                         <P>&nbsp;{{ $initial->name }}</P>
                     @endforeach
+                    @if(count($operationalLog->data->controller_initials->data) < 3)
+                        @for($i = count($operationalLog->data->controller_initials->data); $i < 3; $i++)
+                            <P>&nbsp;</P>
+                        @endfor
+                    @endif
                 </TD>
                 <TD class="tr11 td36">
                     <P>
@@ -640,14 +650,14 @@
             <tr>
                 <td style="border:0.5px solid black; padding:10px">
                     @foreach($operationalLog->data->operational_specifications->data as $item)
-                        <p>
+                        <p style="margin: 0;">
                             &bull;&nbsp;{{ $item->time }}
                         </p>
                     @endforeach
                 </td>
                 <td style="border:0.5px solid black; padding:10px">
                     @foreach($operationalLog->data->operational_specifications->data as $item)
-                        <p>
+                        <p style="margin: 0;">
                             &bull;&nbsp;{{ $item->specification }}
                         </p>
                     @endforeach
