@@ -24,7 +24,7 @@ class OperationalLogController extends Controller
 
     public function index(Request $request)
     {
-        $filters = $request->only(['periodStart', 'periodEnd', 'shift', 'search']);
+        $filters = $request->only(['periodStart', 'periodEnd', 'session', 'search']);
 
         $oplogs = new OperationalLogCollection(
             OperationalLog::query()

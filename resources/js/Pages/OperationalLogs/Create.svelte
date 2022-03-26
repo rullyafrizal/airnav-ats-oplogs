@@ -17,15 +17,15 @@
 
   let form = useForm('CreateLog', {
     date: null,
-    'shift': 'PAGI',
-    atc_on_duty: null,
-    atc_on_duty_signature: {
+    session: 'PAGI',
+    cadet_on_duty: null,
+    cadet_on_duty_signature: {
       data: null,
       image: null,
     },
-    controller_initial_names: null,
+    cadet_names: null,
+    lecturer_names: null,
     time: null,
-    sign: true,
     operational_specifications: [
       {
         key: 1,
@@ -84,8 +84,8 @@
   }
 
   const saveCanvas = (event) => {
-    $form.atc_on_duty_signature.image = event.detail.image
-    $form.atc_on_duty_signature.data = event.detail.data
+    $form.cadet_on_duty_signature.image = event.detail.image
+    $form.cadet_on_duty_signature.data = event.detail.data
     closeModal()
   }
 
@@ -94,7 +94,7 @@
     checkedAll = false
 </script>
 
-<SignatureModal {show} signature={$form.atc_on_duty_signature} on:close={closeModal} on:saveCanvas={saveCanvas} />
+<SignatureModal {show} signature={$form.cadet_on_duty_signature} on:close={closeModal} on:saveCanvas={saveCanvas} />
 
 <h1 class="mb-8 font-bold text-3xl">
   <a use:inertia href={route('operational-logs.index')} class="text-indigo-400 hover:text-indigo-600">
@@ -107,8 +107,8 @@
   <form on:submit|preventDefault={store}>
     <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
       <SelectInput
-        bind:value={$form['shift']}
-        error={$form.errors['shift']}
+        bind:value={$form.session}
+        error={$form.errors.session}
         class="pr-6 pb-6 w-full lg:w-1/2"
         label="Shift :">
         <option value="PAGI">Pagi</option>
@@ -135,29 +135,39 @@
       />
 
       <TextInput
-        bind:value={$form.atc_on_duty}
-        error={$form.errors.atc_on_duty}
+        bind:value={$form.cadet_on_duty}
+        error={$form.errors.cadet_on_duty}
         class="pr-6 pb-6 w-full lg:w-1/2"
-        label="Atc on Duty :"
+        label="Cadet on Duty :"
         placeholder="Herman Agus Siswoyo"
       />
 
       <TextInput
-        bind:value={$form.controller_initial_names}
-        error={$form.errors.controller_initial_names}
+        bind:value={$form.cadet_names}
+        error={$form.errors.cadet_names}
         class="pr-6 pb-6 w-full lg:w-1/2"
-        label="Controller Initials :"
+        label="Cadet Names :"
+        help="Pisahkan dengan koma jika lebih dari 1, tanpa spasi"
+        placeholder="HA,RR,RD"
+      />
+
+      <TextInput
+        bind:value={$form.lecturer_names}
+        error={$form.errors.lecturer_names}
+        class="pr-6 pb-6 w-full lg:w-1/2"
+        label="Lecturer Names :"
         help="Pisahkan dengan koma jika lebih dari 1, tanpa spasi"
         placeholder="HA,RR,RD"
       />
 
       <div class="pr-6 pb-6 w-full lg:w-1/2">
-        <label for="signature">Atc on duty Signature : </label><br>
+        <label for="signature">Cadet on duty Signature : </label><br>
         <button on:click|preventDefault={showModal} class="btn-indigo mt-2" id="signature">
           Signature
         </button>
       </div>
     </div>
+
     <div class="font-bold pl-8 mt-5">
       Operational Specifications &nbsp;
 
@@ -196,55 +206,55 @@
       <div class="col-span-1">
         <label>
           <input
-            bind:checked={$form.facilities.tx_122_4}
+            bind:checked={$form.facilities.tx_ht_twr}
             type="checkbox"
             class="rounded"
           >
-          Tx 122,4
+          Tx HT TWR
         </label>
       </div>
 
       <div class="col-span-1">
         <label>
           <input
-            bind:checked={$form.facilities.rx_122_4}
+            bind:checked={$form.facilities.rx_ht_twr}
             type="checkbox"
             class="rounded"
           >
-          Rx 122,4
+          Rx HT TWR
         </label>
       </div>
 
       <div class="col-span-1">
         <label>
           <input
-            bind:checked={$form.facilities.tx_120_55}
+            bind:checked={$form.facilities.tx_ht_pilot}
             type="checkbox"
             class="rounded"
           >
-          Tx 120,55
+          Tx HT Pilot
         </label>
       </div>
 
       <div class="col-span-1">
         <label>
           <input
-            bind:checked={$form.facilities.rx_120_55}
+            bind:checked={$form.facilities.rx_ht_pilot}
             type="checkbox"
             class="rounded"
           >
-          Rx 120,55
+          Rx HT Pilot
         </label>
       </div>
 
       <div class="col-span-1">
         <label>
           <input
-            bind:checked={$form.facilities.awos}
+            bind:checked={$form.facilities.weather_monitor}
             type="checkbox"
             class="rounded"
           >
-          AWOS
+          Weather Monitor
         </label>
       </div>
 
@@ -262,154 +272,22 @@
       <div class="col-span-1">
         <label>
           <input
-            bind:checked={$form.facilities.crash_bell}
+            bind:checked={$form.facilities.papi}
             type="checkbox"
             class="rounded"
           >
-          Crash Bell
+          PAPI
         </label>
       </div>
 
       <div class="col-span-1">
         <label>
           <input
-            bind:checked={$form.facilities.sirine}
+            bind:checked={$form.facilities.phone}
             type="checkbox"
             class="rounded"
           >
-          Sirine
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.binocular}
-            type="checkbox"
-            class="rounded"
-          >
-          Binocular
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.vscs}
-            type="checkbox"
-            class="rounded"
-          >
-          VSCS
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.navaid_monitor}
-            type="checkbox"
-            class="rounded"
-          >
-          Navaid Monitor
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.fids}
-            type="checkbox"
-            class="rounded"
-          >
-          FIDS
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.afls}
-            type="checkbox"
-            class="rounded"
-          >
-          AFLS
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.aftn}
-            type="checkbox"
-            class="rounded"
-          >
-          AFTN
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.iais}
-            type="checkbox"
-            class="rounded"
-          >
-          IAIS
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.ht_1}
-            type="checkbox"
-            class="rounded"
-          >
-          HT 1
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.ht_2}
-            type="checkbox"
-            class="rounded"
-          >
-          HT 2
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.ht_3}
-            type="checkbox"
-            class="rounded"
-          >
-          HT 3
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.phone_coord}
-            type="checkbox"
-            class="rounded"
-          >
-          Phone Coord
-        </label>
-      </div>
-
-      <div class="col-span-1">
-        <label>
-          <input
-            bind:checked={$form.facilities.phone_tele}
-            type="checkbox"
-            class="rounded"
-          >
-          Phone Tele
+          Phone
         </label>
       </div>
     </div>

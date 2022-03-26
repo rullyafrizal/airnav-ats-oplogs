@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OperationalLog;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,7 +20,7 @@ class DashboardController extends Controller
         }
 
         return Inertia::render('Dashboard/Index', [
-            'oplogCount' => OperationalLog::query()->countPerMonth($year),
+            'oplogCount' => OperationalLog::countPerMonth($year),
             'years' => OperationalLog::year(),
             'filters' => $filters
         ]);

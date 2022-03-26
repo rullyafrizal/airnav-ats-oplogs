@@ -18,6 +18,16 @@ class OperationalLog extends Model
         return $this->embedsMany(ControllerInitial::class);
     }
 
+    public function cadets()
+    {
+        return $this->embedsMany(Cadet::class);
+    }
+
+    public function lecturers()
+    {
+        return $this->embedsMany(Lecturer::class);
+    }
+
     public function operationalSpecifications()
     {
         return $this->embedsMany(OperationalSpecification::class);
@@ -27,7 +37,7 @@ class OperationalLog extends Model
     {
         return $query
             ->when($filters['search'] ?? null, function (Builder $query, $search) {
-                return $query->where('atc_on_duty', 'like', "%{$search}%");
+                return $query->where('cadet_on_duty', 'like', "%{$search}%");
             })
             ->when($filters['periodStart'] ?? null, function (Builder $query, $periodStart) {
                 return $query->whereDate('date', '>=', $periodStart);
@@ -35,19 +45,20 @@ class OperationalLog extends Model
             ->when($filters['periodEnd'] ?? null, function (Builder $query, $periodEnd) {
                 return $query->whereDate('date', '<=', $periodEnd);
             })
-            ->when($filters['shift'] ?? null, function (Builder $query, $shift) {
-                return $query->where('shift', $shift);
+            ->when($filters['session'] ?? null, function (Builder $query, $session) {
+                return $query->where('session', $session);
             });
     }
 
-    public function scopeCountPerMonth(Builder $query, $year): array {
+    public static function countPerMonth($year): array {
         $data = [];
 
         for ($i = 1; $i <= 12; $i++) {
             $start_date = Carbon::createFromDate($year, "$i")->startOfMonth();
             $end_date = Carbon::createFromDate($year, "$i")->endOfMonth();
-            $data[] = $query->where('date', '>=', $start_date->toDateString())
-                ->where('date', '<=', $end_date->toDateString())
+            $data[] = self::query()
+                ->whereDate('date', '>=', $start_date)
+                ->whereDate('date', '<=', $end_date)
                 ->count();
         }
 

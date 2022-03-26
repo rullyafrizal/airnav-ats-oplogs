@@ -17,20 +17,20 @@
 </script>
 
 <svelte:head>
-  <title>Login - SIAPELO</title>
+  <title>Login - SILOTO</title>
 </svelte:head>
 
-<div class="p-6 bg-cover min-h-screen flex justify-center items-center bg-opacity-5" style="background-image: url('/images/image.png')">
+<div class="p-6 bg-cover min-h-screen flex justify-center items-center bg-opacity-50" style="background-image: url('/images/politeknik-surabaya.png')">
   <div class="w-full max-w-md">
     <Logo class="block mx-auto w-full max-w-xs fill-white h-36" height="75" />
-    <h1 class="font-extrabold text-4xl text-white mt-5 text-center">S I A P E L O</h1>
-    <p class="text-center text-gray-300 font-semibold leading-loose text-sm">Aplikasi ATS Operational Log Book</p>
+    <h1 class="font-extrabold text-4xl text-white mt-5 text-center">S I L O T O</h1>
+    <p class="text-center text-gray-300 font-semibold leading-loose text-sm">Aplikasi Log Book Tower</p>
     <form
       class="mt-8 bg-white rounded-lg shadow-2xl overflow-hidden"
       on:submit|preventDefault={login}>
       <div class="px-10 py-12">
         <h1 class="text-center font-bold text-2xl">ATS Operational Log Book</h1>
-        <p class="text-center text-gray-400 leading-loose text-sm">Perum LPPNPI Kantor Cabang Pembantu Lampung</p>
+        <p class="text-center text-gray-400 leading-loose text-sm">Politeknik Penerbangan Surabaya</p>
         <div class="mx-auto mt-5 w-24 border-b-2" />
         <TextInput
           bind:value={$form.email}

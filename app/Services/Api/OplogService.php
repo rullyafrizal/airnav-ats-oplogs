@@ -5,7 +5,6 @@ namespace App\Services\Api;
 use App\Http\Resources\OperationalLog\OperationalLogResource;
 use App\Models\OperationalLog;
 use PDF;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OplogService
@@ -19,42 +18,42 @@ class OplogService
             $oplog = OperationalLog::query()
                 ->create([
                     'date' => $payload['date'],
-                    'shift' => $payload['shift'],
+                    'session' => $payload['session'],
                     'time' => $payload['time'],
-                    'sign' => $payload['sign'],
-                    'tx_122_4' => $payload['facilities']['tx_122_4'],
-                    'rx_122_4' => $payload['facilities']['rx_122_4'],
-                    'tx_120_55' => $payload['facilities']['tx_120_55'],
-                    'rx_120_55' => $payload['facilities']['rx_120_55'],
-                    'awos' => $payload['facilities']['awos'],
+                    'tx_ht_twr' => $payload['facilities']['tx_ht_twr'],
+                    'rx_ht_twr' => $payload['facilities']['rx_ht_twr'],
+                    'tx_ht_pilot' => $payload['facilities']['tx_ht_pilot'],
+                    'rx_ht_pilot' => $payload['facilities']['rx_ht_pilot'],
+                    'weather_monitor' => $payload['facilities']['weather_monitor'],
                     'signal_lamp' => $payload['facilities']['signal_lamp'],
-                    'crash_bell' => $payload['facilities']['crash_bell'],
-                    'sirine' => $payload['facilities']['sirine'],
-                    'binocular' => $payload['facilities']['binocular'],
-                    'vscs' => $payload['facilities']['vscs'],
-                    'navaid_monitor' => $payload['facilities']['navaid_monitor'],
-                    'fids' => $payload['facilities']['fids'],
-                    'afls' => $payload['facilities']['afls'],
-                    'aftn' => $payload['facilities']['aftn'],
-                    'iais' => $payload['facilities']['iais'],
-                    'ht_1' => $payload['facilities']['ht_1'],
-                    'ht_2' => $payload['facilities']['ht_2'],
-                    'ht_3' => $payload['facilities']['ht_3'],
-                    'phone_coord' => $payload['facilities']['phone_coord'],
-                    'phone_tele' => $payload['facilities']['phone_tele'],
-                    'atc_on_duty' => $payload['atc_on_duty'],
-                    'atc_on_duty_signature' => $payload['atc_on_duty_signature'],
+                    'papi' => $payload['facilities']['papi'],
+                    'phone' => $payload['facilities']['phone'],
+                    'cadet_on_duty' => $payload['cadet_on_duty'],
+                    'cadet_on_duty_signature' => $payload['cadet_on_duty_signature'],
                 ]);
 
-            $initials = array_filter(
-                explode(',', trim($payload['controller_initial_names']))
+            $cadets = array_filter(
+                explode(',', trim($payload['cadet_names']))
             );
 
-            if (count($initials)) {
-                foreach ($initials as $initial) {
-                    $oplog->controllerInitials()
+            if (count($cadets)) {
+                foreach ($cadets as $cadet) {
+                    $oplog->cadets()
                         ->create([
-                            'name' => $initial
+                            'name' => $cadet
+                        ]);
+                }
+            }
+
+            $lecturers = array_filter(
+                explode(',', trim($payload['lecturer_names']))
+            );
+
+            if (count($lecturers)) {
+                foreach ($lecturers as $lecturer) {
+                    $oplog->lecturers()
+                        ->create([
+                            'name' => $lecturer
                         ]);
                 }
             }
@@ -87,44 +86,46 @@ class OplogService
             if ($diff < 48) {
                 $operationalLog->update([
                     'date' => $payload['date'],
-                    'shift' => $payload['shift'],
+                    'session' => $payload['session'],
                     'time' => $payload['time'],
-                    'sign' => $payload['sign'],
-                    'tx_122_4' => $payload['facilities']['tx_122_4'],
-                    'rx_122_4' => $payload['facilities']['rx_122_4'],
-                    'tx_120_55' => $payload['facilities']['tx_120_55'],
-                    'rx_120_55' => $payload['facilities']['rx_120_55'],
-                    'awos' => $payload['facilities']['awos'],
+                    'tx_ht_twr' => $payload['facilities']['tx_ht_twr'],
+                    'rx_ht_twr' => $payload['facilities']['rx_ht_twr'],
+                    'tx_ht_pilot' => $payload['facilities']['tx_ht_pilot'],
+                    'rx_ht_pilot' => $payload['facilities']['rx_ht_pilot'],
+                    'weather_monitor' => $payload['facilities']['weather_monitor'],
                     'signal_lamp' => $payload['facilities']['signal_lamp'],
-                    'crash_bell' => $payload['facilities']['crash_bell'],
-                    'sirine' => $payload['facilities']['sirine'],
-                    'binocular' => $payload['facilities']['binocular'],
-                    'vscs' => $payload['facilities']['vscs'],
-                    'navaid_monitor' => $payload['facilities']['navaid_monitor'],
-                    'fids' => $payload['facilities']['fids'],
-                    'afls' => $payload['facilities']['afls'],
-                    'aftn' => $payload['facilities']['aftn'],
-                    'iais' => $payload['facilities']['iais'],
-                    'ht_1' => $payload['facilities']['ht_1'],
-                    'ht_2' => $payload['facilities']['ht_2'],
-                    'ht_3' => $payload['facilities']['ht_3'],
-                    'phone_coord' => $payload['facilities']['phone_coord'],
-                    'phone_tele' => $payload['facilities']['phone_tele'],
-                    'atc_on_duty' => $payload['atc_on_duty'],
-                    'atc_on_duty_signature' => $payload['atc_on_duty_signature'],
+                    'papi' => $payload['facilities']['papi'],
+                    'phone' => $payload['facilities']['phone'],
+                    'cadet_on_duty' => $payload['cadet_on_duty'],
+                    'cadet_on_duty_signature' => $payload['cadet_on_duty_signature'],
                 ]);
 
                 $initials = array_filter(
-                    explode(',', trim($payload['controller_initial_names']))
+                    explode(',', trim($payload['cadet_names']))
                 );
 
-                $operationalLog->controllerInitials()->delete();
+                $operationalLog->cadets()->delete();
 
                 if (count($initials)) {
                     foreach ($initials as $initial) {
-                        $operationalLog->controllerInitials()
+                        $operationalLog->cadets()
                             ->create([
                                 'name' => $initial
+                            ]);
+                    }
+                }
+
+                $lecturers = array_filter(
+                    explode(',', trim($payload['lecturer_names']))
+                );
+
+                $operationalLog->lecturers()->delete();
+
+                if (count($lecturers)) {
+                    foreach ($lecturers as $lecturer) {
+                        $operationalLog->lecturers()
+                            ->create([
+                                'name' => $lecturer
                             ]);
                     }
                 }
@@ -171,7 +172,9 @@ class OplogService
         $session->startTransaction();
 
         try {
-            $operationalLog->controllerInitials()->delete();
+            $operationalLog->cadets()->delete();
+
+            $operationalLog->lecturers()->delete();
 
             $operationalLog->operationalSpecifications()->delete();
 
@@ -191,7 +194,7 @@ class OplogService
 
     public function export(OperationalLog $operationalLog)
     {
-        $pdf = PDF::loadView('downloads.operational_log.pdf', [
+        $pdf = PDF::loadView('downloads.operational_log.pdf2', [
             'operationalLog' => (new OperationalLogResource($operationalLog))->response()->getData()
         ]);
         $pdf->setPaper('A4', 'landscape');

@@ -3,7 +3,9 @@
 namespace App\Http\Resources\OperationalLog;
 
 use App\Enums\DateFormat;
+use App\Http\Resources\Cadet\CadetCollection;
 use App\Http\Resources\ControllerInitial\ControllerInitialCollection;
+use App\Http\Resources\Lecturer\LecturerCollection;
 use App\Http\Resources\OperationalSpesification\OperationalSpesificationCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,35 +21,23 @@ class OperationalLogResource extends JsonResource
     {
         return [
             'id' => $this->_id,
-            'controller_initials' => new ControllerInitialCollection($this->controllerInitials),
+            'cadets' => new CadetCollection($this->cadets),
+            'lecturers' => new LecturerCollection($this->lecturers),
             'operational_specifications' => new OperationalSpesificationCollection($this->operationalSpecifications),
             'date' => to_carbon($this->date)->format(DateFormat::ONLY_DATE_2),
             'date_2' => to_carbon($this->date)->format(DateFormat::ONLY_DATE),
-            'shift' => $this->shift,
-            'atc_on_duty' => $this->atc_on_duty,
-            'atc_on_duty_signature' => $this->atc_on_duty_signature,
+            'session' => $this->session,
+            'cadet_on_duty' => $this->cadet_on_duty,
+            'cadet_on_duty_signature' => $this->cadet_on_duty_signature,
             'time' => to_carbon($this->time)->format(DateFormat::HOUR_MINUTE),
-            'sign' => $this->sign,
-            'tx_122_4' => $this->tx_122_4,
-            'rx_122_4' => $this->rx_122_4,
-            'tx_120_55' => $this->tx_120_55,
-            'rx_120_55' => $this->rx_120_55,
-            'awos' => $this->awos,
+            'tx_ht_twr' => $this->tx_ht_twr,
+            'rx_ht_twr' => $this->rx_ht_twr,
+            'tx_ht_pilot' => $this->tx_ht_pilot,
+            'rx_ht_pilot' => $this->rx_ht_pilot,
+            'weather_monitor' => $this->weather_monitor,
             'signal_lamp' => $this->signal_lamp,
-            'crash_bell' => $this->crash_bell,
-            'sirine' => $this->sirine,
-            'binocular' => $this->binocular,
-            'vscs' => $this->vscs,
-            'navaid_monitor' => $this->navaid_monitor,
-            'fids' => $this->fids,
-            'afls' => $this->afls,
-            'aftn' => $this->aftn,
-            'iais' => $this->iais,
-            'ht_1' => $this->ht_1,
-            'ht_2' => $this->ht_2,
-            'ht_3' => $this->ht_3,
-            'phone_coord' => $this->phone_coord,
-            'phone_tele' => $this->phone_tele,
+            'papi' => $this->papi,
+            'phone' => $this->phone,
             'created_at' => $this->created_at->format(DateFormat::WITH_TIME),
             'updated_at' => $this->updated_at->format(DateFormat::WITH_TIME),
             'is_updatable' => now()->diffInHours($this->created_at) < 48 ? true : false

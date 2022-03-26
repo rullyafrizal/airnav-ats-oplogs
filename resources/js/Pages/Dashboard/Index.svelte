@@ -65,7 +65,7 @@
 
 <h1 class="mb-4 font-bold text-3xl">Dashboard</h1>
 <h3 class="font-semibold mb-8 text-gray-400 leading-normal">
-  ATS Operational Log Book - Perum LPPNPI Kantor Cabang Pembantu Lampung
+  Log Book Tower Politeknik Penerbangan Surabaya
 </h3>
 
 <div class="mb-6 flex justify-start items-center overflow-x-auto">

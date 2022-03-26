@@ -16,7 +16,7 @@
     export let oplogs = []
 
     let filters = {
-      shift: $page.props.filters.shift,
+      session: $page.props.filters.session,
       periodStart: $page.props.filters.periodStart,
       periodEnd: $page.props.filters.periodEnd,
     }
@@ -25,8 +25,8 @@
 <h1 class="mb-8 font-bold text-3xl">Operational Logs</h1>
 <div class="mb-6 flex justify-between items-center">
   <SearchFilter class="w-full max-w-md mr-4" bind:filters>
-    <label for="role" class="block text-gray-700">Shift:</label>
-    <select id="role" class="mt-1 mb-5 w-full form-select" bind:value={filters.shift}>
+    <label for="role" class="block text-gray-700">Session:</label>
+    <select id="role" class="mt-1 mb-5 w-full form-select" bind:value={filters.session}>
       <option value={null}></option>
       <option value="PAGI">Pagi</option>
       <option value="SIANG">Siang</option>
@@ -55,8 +55,8 @@
   <table class="w-full whitespace-nowrap">
     <tr class="text-left font-bold">
       <th class="px-6 pt-6 pb-4">Date</th>
-      <th class="px-6 pt-6 pb-4">Shift</th>
-      <th class="px-6 pt-6 pb-4">ATC on Duty</th>
+      <th class="px-6 pt-6 pb-4">Session</th>
+      <th class="px-6 pt-6 pb-4">Cadet on Duty</th>
       <th class="px-6 pt-6 pb-4">Created At</th>
       <th class="px-6 pt-6 pb-4">Action</th>
       <th class="px-6 pt-6 pb-4"></th>
@@ -78,8 +78,8 @@
             href={route('operational-logs.edit', oplog.id)}
             class="px-6 py-4 flex items-center"
             tabindex="-1">
-            <span class={oplog.shift === 'PAGI' ? 'inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full' : 'inline-flex px-2 text-xs font-semibold leading-5 text-yellow-800 bg-yellow-100 rounded-full'}>
-              {oplog.shift || ''}
+            <span class={oplog.session === 'PAGI' ? 'inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full' : 'inline-flex px-2 text-xs font-semibold leading-5 text-yellow-800 bg-yellow-100 rounded-full'}>
+              {oplog.session || ''}
             </span>
           </a>
         </td>
@@ -89,7 +89,7 @@
             href={route('operational-logs.edit', oplog.id)}
             class="px-6 py-4 flex items-center"
             tabindex="-1">
-            {oplog.atc_on_duty || ''}
+            {oplog.cadet_on_duty || ''}
           </a>
         </td>
         <td class="border-t">

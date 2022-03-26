@@ -38,6 +38,7 @@
   const saveCanvas = () => {
     const image = signaturePad.toDataURL('image/svg+xml')
     const data = signaturePad.toData()
+
     dispatch('saveCanvas', {
       image,
       data,
@@ -62,8 +63,8 @@
               <h3 id="modal-title" class="text-lg leading-6 font-medium text-gray-900">
                 Signature Pad
               </h3>
-              <div class="mt-3 w-72 h-36 border-dashed border-2 border-gray-500 bg-gray-50 rounded">
-                <canvas class="w-72 h-36"></canvas>
+              <div class="mt-3 w-48 h-36 border-dashed border-2 border-gray-500 bg-gray-50 rounded">
+                <canvas></canvas>
               </div>
               <button type="button" on:click|preventDefault={clearCanvas}
                       class="lg:w-full sm:w-1/2 inline-flex justify-center rounded border border-transparent shadow-sm px-4 py-2 mt-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:w-auto sm:text-sm"
